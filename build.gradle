@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group 'info.kwarc.mmt.stex.lsp.languagemodel'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'ai.djl:api:0.21.0'
+    implementation 'ai.djl.huggingface:tokenizers:0.21.0'
+    implementation 'ai.djl.pytorch:pytorch-engine:0.21.0'
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+    implementation 'net.sourceforge.argparse4j:argparse4j:0.9.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "info.kwarc.mmt.stex.lsp.languagemodel.HuggingFaceTokenModel"
+        attributes "Specification-Version": "1.0"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
